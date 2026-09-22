@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para ti 💛</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(#87CEEB 0%, #c8f7ff 55%, #7ec850 56%, #4d9b35 100%);
+    height: 100vh;
+}
+
+/* FLOR INICIAL */
+#florInicial {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 100px;
+    cursor: pointer;
+    transition: 1s;
+    z-index: 10;
+    animation: latido 2s infinite;
+}
+
+@keyframes latido {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.08);
+    }
+}
+
+/* CAMPO */
+#campo {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 45vh;
+    opacity: 0;
+    transition: 2s;
+}
+
+/* FLORES */
+.flor {
+    position: absolute;
+    font-size: 35px;
+    opacity: 0;
+    animation: aparecer 1.5s forwards;
+}
+
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* MENSAJES */
+#mensaje {
+    position: absolute;
+    top: 9%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    text-align: center;
+    font-size: 25px;
+    color: white;
+    text-shadow: 0 2px 5px #555;
+    opacity: 0;
+    transition: 2s;
+    z-index: 5;
+}
+
+/* CONTADOR */
+#contador {
+    position: absolute;
+    top: 17%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: white;
+    text-shadow: 0 2px 5px #555;
+    opacity: 0;
+    transition: 2s;
+    z-index: 5;
+}
+
+#contadorTitulo {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+#tiempo {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+/* CARTA */
+#cartaContainer {
+    position: absolute;
+    bottom: 8%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: 2s;
+    z-index: 6;
+}
+
+#sobre {
+    width: 180px;
+    height: 120px;
+    background: #fff3d6;
+    border: 3px solid #d8b878;
+    border-radius: 8px;
+    position: relative;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.25);
+    transition: 0.3s;
+}
+
+#sobre:hover {
+    transform: scale(1.08);
+}
+
+#sobre::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-left: 87px solid transparent;
+    border-right: 87px solid transparent;
+    border-top: 65px solid #e6c98f;
+}
+
+.corazon {
+    position: absolute;
+    top: 42px;
+    left: 73px;
+    font-size: 35px;
+    z-index: 2;
+}
+
+/* CARTA ABIERTA */
+#carta {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 85%;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+    background: #fff8e8;
+    padding: 30px;
+    border-radius: 15px;
+    border: 3px solid #d8b878;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    z-index: 20;
+}
+
+#carta.abierta {
+    display: block;
+    animation: cartaMagica 1s ease;
+}
+
+@keyframes cartaMagica {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.3) rotate(-8deg);
+    }
+
+    60% {
+        transform: translate(-50%, -50%) scale(1.08) rotate(2deg);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1) rotate(0);
+    }
+}
+
+#carta h2 {
+    text-align: center;
+    color: #c99425;
+}
+
+#carta p {
+    font-size: 18px;
+    line-height: 1.7;
+    color: #5a4630;
+}
+
+#cerrar {
+    display: block;
+    margin: 20px auto 0;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    background: #e5b94f;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* CORAZONES */
+.corazonFlotante {
+    position: fixed;
+    bottom: -40px;
+    font-size: 25px;
+    animation: subirCorazon linear forwards;
+    pointer-events: none;
+    z-index: 4;
+}
+
+@keyframes subirCorazon {
+    from {
+        transform: translateY(0) scale(0.5);
+        opacity: 0;
+    }
+
+    15% {
+        opacity: 1;
+    }
+
+    to {
+        transform: translateY(-110vh) scale(1.2);
+        opacity: 0;
+    }
+}
+
+/* ESTRELLAS */
+.estrella {
+    position: fixed;
+    color: white;
+    font-size: 12px;
+    animation: brillar 2s infinite alternate;
+    pointer-events: none;
+    z-index: 2;
+}
+
+@keyframes brillar {
+    from {
+        opacity: 0.2;
+        transform: scale(0.7);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1.4);
+    }
+}
+
+/* PÉTALOS */
+.petalo {
+    position: fixed;
+    top: -30px;
+    font-size: 22px;
+    animation: caer linear forwards;
+    pointer-events: none;
+    z-index: 7;
+}
+
+@keyframes caer {
+    0% {
+        transform: translateY(-30px) rotate(0deg);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- FLOR INICIAL -->
+<div id="florInicial" onclick="crearCampo()">🌻</div>
+
+<!-- CAMPO -->
+<div id="campo"></div>
+
+<!-- MENSAJES -->
+<div id="mensaje"></div>
+
+<!-- CONTADOR -->
+<div id="contador">
+    <div id="contadorTitulo">
+        Juntos desde el 28 de diciembre de 2025 💛
+    </div>
+
+    <div id="tiempo">
+        Calculando...
+    </div>
+</div>
+
+<!-- CARTA -->
+<div id="cartaContainer">
+    <div id="sobre" onclick="abrirCarta()">
+        <div class="corazon">💛</div>
+    </div>
+</div>
+
+<!-- CARTA ABIERTA -->
+<div id="carta">
+
+    <h2>Para ti, mi niña 💛</h2>
+
+    <p>
+        Gracias por estar conmigo, mi niña. 💛
+        <br><br>
+
+        Te amo demasiado. Eres el amor de mi vida,
+        lo mejor que me ha pasado.
+        <br><br>
+
+        Te amo demasiado, de verdad.
+        <br><br>
+
+        Yo sé que no te pude dar unas flores en persona,
+        pero te doy estas para que las tengas en tu corazón
+        siempre, mi niña.
+        <br><br>
+
+        Te amo… 💛🌻
+    </p>
+
+    <button id="cerrar" onclick="cerrarCarta()">Cerrar</button>
+
+</div>
+
+<script>
+
+/* CONTADOR */
+function actualizarContador() {
+
+    const inicio = new Date("2025-12-28T00:00:00");
+    const ahora = new Date();
+
+    const diferencia = ahora - inicio;
+
+    const dias = Math.floor(
+        diferencia / (1000 * 60 * 60 * 24)
+    );
+
+    const horas = Math.floor(
+        (diferencia / (1000 * 60 * 60)) % 24
+    );
+
+    const minutos = Math.floor(
+        (diferencia / (1000 * 60)) % 60
+    );
+
+    const segundos = Math.floor(
+        (diferencia / 1000) % 60
+    );
+
+    document.getElementById("tiempo").innerHTML =
+        dias + " días " +
+        horas + " horas " +
+        minutos + " minutos " +
+        segundos + " segundos";
+}
+
+setInterval(actualizarContador, 1000);
+actualizarContador();
+
+
+/* CREAR CAMPO */
+function crearCampo() {
+
+    const flor = document.getElementById("florInicial");
+    const campo = document.getElementById("campo");
+    const contador = document.getElementById("contador");
+
+    flor.style.opacity = "0";
+    flor.style.transform =
+        "translate(-50%, -50%) scale(0.2)";
+
+    setTimeout(() => {
+
+        flor.style.display = "none";
+
+        campo.style.opacity = "1";
+        contador.style.opacity = "1";
+
+        /* CREAR FLORES */
+        for (let i = 0; i < 70; i++) {
+
+            const nuevaFlor =
+                document.createElement("div");
+
+            nuevaFlor.className = "flor";
+            nuevaFlor.innerHTML = "🌻";
+
+            nuevaFlor.style.left =
+                Math.random() * 100 + "%";
+
+            nuevaFlor.style.top =
+                Math.random() * 100 + "%";
+
+            nuevaFlor.style.animationDelay =
+                Math.random() * 3 + "s";
+
+            campo.appendChild(nuevaFlor);
+        }
+
+        /* MENSAJES */
+        setTimeout(mostrarMensajes, 2500);
+
+        /* CARTA */
+        setTimeout(() => {
+
+            document.getElementById(
+                "cartaContainer"
+            ).style.opacity = "1";
+
+        }, 9000);
+
+        /* ESTRELLAS */
+        crearEstrellas();
+
+        /* CORAZONES */
+        setInterval(crearCorazon, 2500);
+
+        /* PÉTALOS */
+        setInterval(crearPetalo, 1800);
+
+    }, 1000);
+}
+
+
+/* MENSAJES */
+const mensajes = [
+
+    "Gracias por estar conmigo 💛",
+
+    "Aunque estemos lejos, siempre estás conmigo 🌻",
+
+    "Eres una persona muy especial para mí 💛",
+
+    "Cada momento contigo significa muchísimo para mí ✨",
+
+    "La distancia no cambia lo que siento por ti 🌻",
+
+    "Te amo muchísimo 💛"
+
+];
+
+let indice = 0;
+
+function mostrarMensajes() {
+
+    const mensaje =
+        document.getElementById("mensaje");
+
+    mensaje.innerHTML =
+        mensajes[indice];
+
+    mensaje.style.opacity = "1";
+
+    setTimeout(() => {
+
+        mensaje.style.opacity = "0";
+
+    }, 4000);
+
+    indice++;
+
+    if (indice >= mensajes.length) {
+        indice = 0;
+    }
+
+    setTimeout(mostrarMensajes, 6000);
+}
+
+
+/* ESTRELLAS */
+function crearEstrellas() {
+
+    for (let i = 0; i < 35; i++) {
+
+        const estrella =
+            document.createElement("div");
+
+        estrella.className = "estrella";
+        estrella.innerHTML = "✦";
+
+        estrella.style.left =
+            Math.random() * 100 + "%";
+
+        estrella.style.top =
+            Math.random() * 55 + "%";
+
+        estrella.style.animationDelay =
+            Math.random() * 2 + "s";
+
+        document.body.appendChild(estrella);
+    }
+}
+
+
+/* CORAZONES */
+function crearCorazon() {
+
+    const corazon =
+        document.createElement("div");
+
+    corazon.className =
+        "corazonFlotante";
+
+    corazon.innerHTML =
+        Math.random() > 0.5 ? "💛" : "🤍";
+
+    corazon.style.left =
+        Math.random() * 100 + "%";
+
+    corazon.style.animationDuration =
+        (5 + Math.random() * 4) + "s";
+
+    document.body.appendChild(corazon);
+
+    setTimeout(() => {
+
+        corazon.remove();
+
+    }, 9000);
+}
+
+
+/* PÉTALOS */
+function crearPetalo() {
+
+    const petalo =
+        document.createElement("div");
+
+    petalo.className = "petalo";
+
+    petalo.innerHTML =
+        Math.random() > 0.5 ? "🌼" : "🌻";
+
+    petalo.style.left =
+        Math.random() * 100 + "%";
+
+    petalo.style.animationDuration =
+        (5 + Math.random() * 4) + "s";
+
+    document.body.appendChild(petalo);
+
+    setTimeout(() => {
+
+        petalo.remove();
+
+    }, 9000);
+}
+
+
+/* CARTA */
+function abrirCarta() {
+
+    document
+        .getElementById("carta")
+        .classList.add("abierta");
+
+    /* EXPLOSIÓN DE CORAZONES */
+    for (let i = 0; i < 15; i++) {
+
+        setTimeout(() => {
+            crearCorazon();
+        }, i * 100);
+    }
+}
+
+function cerrarCarta() {
+
+    document
+        .getElementById("carta")
+        .classList.remove("abierta");
+}
+
+</script>
+
+</body>
+</html>
